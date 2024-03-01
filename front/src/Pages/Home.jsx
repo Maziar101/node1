@@ -10,6 +10,7 @@ export default function Home() {
       setTours(data?.data);
     })();
   }, []);
+
   const item = tours?.map((tour, index) => (
     <div key={index} style={{boxShadow:"0 0 5px blue",display:"flex",justifyContent:"center",flexDirection:"column",border:"1px solid black",padding:"20px",borderRadius:"10px"}}>
         {console.log(tour)}

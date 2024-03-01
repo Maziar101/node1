@@ -7,7 +7,7 @@ export default function App() {
   return (
     <Routes>
       <Route exact path='/' element={<Home/>}/>
-      <Route path='/tours/:id' element={<TourDetails/>}/>
+      <Route path='/tours/:id/:name' element={<TourDetails/>}/>
     </Routes>
   )
 }

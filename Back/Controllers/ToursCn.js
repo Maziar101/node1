@@ -19,15 +19,39 @@ export const getTourById = (req, res) => {
   }
   return res.status(200).json({ data, status: "success" });
 };
-export const deleteTour = (req,res)=>{
-    const {id} = req.params;
-    const data = tourList?.filter((e)=>{
-        if(e.id == id){
-            return false;
-        }
-        return true;
+export const deleteTour = (req, res) => {
+  const { id } = req.params;
+  const data = tourList?.filter((e) => {
+    if (e.id == id) {
+      return false;
+    }
+    return true;
+  });
+  fs.writeFile("./data/tours-simple.json", JSON.stringify(data), (err) => {
+    return res.status(200).json(`Tour with id ${id} deleted successfully`);
+  });
+};
+export const addTour = (req, res) => {
+  const newTour = req.body;
+  const newId = tourList.at(-1).id + 1;
+    console.log(newId)
+    if (
+    !newTour?.description ||
+    !newTour?.ratingsAverage ||
+    !newTour?.name ||
+    !newTour?.price
+  ) {
+    return res.status(401).json({
+      status: "failed",
+      message: "All fields are required",
     });
-    fs.writeFile("./data/tours-simple.json",JSON.stringify(data),(err)=>{
-        return res.status(200).json(`Tour with id ${id} deleted successfully`);
-    });
+  }
+  const newTr = { id: newId, ...newTour };
+  fs.writeFile(
+    "./data/tours-simple.json",
+    JSON.stringify([...tourList, newTr]),
+    (err) => {
+        return res.status(201).json({ data: newTr, status: "success" });
+    }
+  );
 };

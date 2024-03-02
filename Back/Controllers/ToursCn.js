@@ -34,8 +34,8 @@ export const deleteTour = (req, res) => {
 export const addTour = (req, res) => {
   const newTour = req.body;
   const newId = tourList.at(-1).id + 1;
-    console.log(newId)
-    if (
+  console.log(newId);
+  if (
     !newTour?.description ||
     !newTour?.ratingsAverage ||
     !newTour?.name ||
@@ -51,7 +51,27 @@ export const addTour = (req, res) => {
     "./data/tours-simple.json",
     JSON.stringify([...tourList, newTr]),
     (err) => {
-        return res.status(201).json({ data: newTr, status: "success" });
+      return res.status(201).json({ data: newTr, status: "success" });
     }
   );
+};
+export const updateTour = (req, res) => {
+  const { id } = req.params;
+  const newTour = req.body;
+  const newTourArr = Object.entries(newTour);
+  let add;
+  const newTourAdd = tourList?.map((tour) => {
+    if (tour.id == id) {
+      newTourArr?.map((key) => {
+        tour[key[0]] = key[1];
+      });
+      add = tour;
+      return tour;
+    }
+    return tour;
+  });
+
+  fs.writeFile("./data/tours-simple.json", JSON.stringify(newTourAdd), (err) => {
+    return res.status(201).json({ data: add, status: "success" });
+  });
 };

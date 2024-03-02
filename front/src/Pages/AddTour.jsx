@@ -36,6 +36,7 @@ export default function SignIn() {
             });
             const data = await res.json();
             console.log(data);
+            window.location.href = "/";
         })();
     }
   }
